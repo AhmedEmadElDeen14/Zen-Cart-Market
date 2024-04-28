@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zen_cart_market/features/flashSale/presentation/pages/flashSale.dart';
 import 'package:zen_cart_market/features/home/presentation/pages/homeScreen.dart';
 import 'package:zen_cart_market/features/logIn/presentation/pages/login_screen.dart';
 import 'package:zen_cart_market/features/register/presentation/pages/register.dart';
@@ -9,6 +10,7 @@ class RoutesName {
   static const String login = "login";
   static const String register = "register";
   static const String appLayout = "appLayout";
+  static const String flashSale = "flashSale";
 }
 
 class AppRoutes {
@@ -26,9 +28,13 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => RegisterScreen(),
         );
-case RoutesName.appLayout:
+      case RoutesName.appLayout:
         return MaterialPageRoute(
           builder: (context) => AppLayout(),
+        );
+      case RoutesName.flashSale:
+        return MaterialPageRoute(
+          builder: (context) => FlashSale(),
         );
 
       default:

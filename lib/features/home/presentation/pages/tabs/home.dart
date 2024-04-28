@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:zen_cart_market/config/routes/routes.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
 import 'package:zen_cart_market/core/utils/styles.dart';
 import 'package:zen_cart_market/features/home/presentation/widgets/categoryItem.dart';
 import 'package:zen_cart_market/features/home/presentation/widgets/productItem.dart';
 import 'package:zen_cart_market/features/home/presentation/widgets/saleAds.dart';
 
-
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
-
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -21,6 +20,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     CarouselController carouselController = CarouselController();
@@ -43,11 +43,36 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   carouselController: carouselController,
                   items: [
-                    SaleAds(),
-                    SaleAds(),
-                    SaleAds(),
-                    SaleAds(),
-                    SaleAds(),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.flashSale);
+                      },
+                      child: SaleAds(),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.flashSale);
+                      },
+                      child: SaleAds(),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.flashSale);
+                      },
+                      child: SaleAds(),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.flashSale);
+                      },
+                      child: SaleAds(),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.flashSale);
+                      },
+                      child: SaleAds(),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -255,7 +280,6 @@ class _HomeTabState extends State<HomeTab> {
               child: GridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: .7),
-
                 children: [
                   ProductItem(
                     title: "Nike Air Max 270 React ENG",
@@ -273,8 +297,6 @@ class _HomeTabState extends State<HomeTab> {
                     title: "MNike Air Max 270 React ENG",
                     imagePath: "assets/images/image Product_6.png",
                   ),
-
-
                 ],
               ),
             )

@@ -65,6 +65,7 @@ class _HomeScreenState extends State<AppLayout> {
                 style: BodyTextStyle.normalBold
                     .copyWith(color: AppColors.backgroundColor),
               ),
+              badgeStyle: badges.BadgeStyle(badgeColor: AppColors.primaryRed),
               child: Icon(
                 Icons.notifications_none_rounded,
                 color: AppColors.neutralGrey,
@@ -100,7 +101,18 @@ class _HomeScreenState extends State<AppLayout> {
               label: "Explore",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined),
+              icon: badges.Badge(
+                position: badges.BadgePosition.topEnd(top: -10, end: -8),
+                badgeContent: Text(
+                  "2",
+                  style: BodyTextStyle.normalBold
+                      .copyWith(color: AppColors.backgroundColor),
+                ),
+                badgeStyle: badges.BadgeStyle(badgeColor: AppColors.primaryRed),
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                ),
+              ),
               label: "Cart",
             ),
             BottomNavigationBarItem(
@@ -115,12 +127,11 @@ class _HomeScreenState extends State<AppLayout> {
     );
   }
 
-  List<Widget> tabs=[
+  List<Widget> tabs = [
     HomeTab(),
     ExploreTab(),
     CartTab(),
     OfferTab(),
     AccountTab()
   ];
-
 }

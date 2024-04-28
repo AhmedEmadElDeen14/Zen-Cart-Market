@@ -48,6 +48,15 @@ class ProductItem extends StatelessWidget {
             ),
             Row(
               children: [
+                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+              ],
+            ),
+            Row(
+              children: [
                 Text(
                   "\$534,33",
                   style: CaptionTextStyle.normalRegular.copyWith(
