@@ -204,7 +204,7 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, RoutesName.register);
+                        Navigator.pushNamed(context, RoutesName.login);
                       },
                       child: Text("Sign In",
                           style: LinkTextStyle.normal

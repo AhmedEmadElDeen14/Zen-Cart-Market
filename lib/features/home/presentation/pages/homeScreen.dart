@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:zen_cart_market/config/routes/routes.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
 import 'package:zen_cart_market/core/utils/styles.dart';
 import 'package:badges/badges.dart' as badges;
@@ -12,9 +13,6 @@ import 'package:zen_cart_market/features/home/presentation/pages/tabs/cartTab.da
 import 'package:zen_cart_market/features/home/presentation/pages/tabs/explore.dart';
 import 'package:zen_cart_market/features/home/presentation/pages/tabs/home.dart';
 import 'package:zen_cart_market/features/home/presentation/pages/tabs/offerTab.dart';
-import 'package:zen_cart_market/features/home/presentation/widgets/categoryItem.dart';
-import 'package:zen_cart_market/features/home/presentation/widgets/productItem.dart';
-import 'package:zen_cart_market/features/home/presentation/widgets/saleAds.dart';
 
 class AppLayout extends StatefulWidget {
   const AppLayout({super.key});
@@ -55,7 +53,9 @@ class _HomeScreenState extends State<AppLayout> {
               color: AppColors.neutralGrey,
               size: 28,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.favoriteScreen);
+            },
           ),
           InkWell(
             child: badges.Badge(
@@ -72,7 +72,9 @@ class _HomeScreenState extends State<AppLayout> {
                 size: 28,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.notificationScreen);
+            },
           ),
           SizedBox(
             width: 15,

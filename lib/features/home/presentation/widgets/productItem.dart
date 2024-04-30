@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zen_cart_market/config/routes/routes.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
 import 'package:zen_cart_market/core/utils/styles.dart';
 
 class ProductItem extends StatelessWidget {
   String title;
   String imagePath;
+  bool checkDelete = false;
 
-  ProductItem({required this.title, required this.imagePath});
+  ProductItem(
+      {required this.title, required this.imagePath, this.checkDelete = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,9 @@ class ProductItem extends StatelessWidget {
           border: Border.all(color: AppColors.neutralLight),
           borderRadius: BorderRadius.circular(5)),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, RoutesName.productScreen);
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,30 +53,65 @@ class ProductItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
-                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
-                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
-                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
-                Icon(Icons.star,size: 12,color: AppColors.primaryYellow,),
+                Icon(
+                  Icons.star,
+                  size: 12,
+                  color: AppColors.primaryYellow,
+                ),
+                Icon(
+                  Icons.star,
+                  size: 12,
+                  color: AppColors.primaryYellow,
+                ),
+                Icon(
+                  Icons.star,
+                  size: 12,
+                  color: AppColors.primaryYellow,
+                ),
+                Icon(
+                  Icons.star,
+                  size: 12,
+                  color: AppColors.primaryYellow,
+                ),
+                Icon(
+                  Icons.star,
+                  size: 12,
+                  color: AppColors.primaryYellow,
+                ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "\$534,33",
-                  style: CaptionTextStyle.normalRegular.copyWith(
-                    color: AppColors.neutralGrey,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "\$534,33",
+                      style: CaptionTextStyle.normalRegular.copyWith(
+                        color: AppColors.neutralGrey,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      "24% Off",
+                      style: CaptionTextStyle.normalBold.copyWith(
+                        color: AppColors.primaryRed,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "24% Off",
-                  style: CaptionTextStyle.normalBold.copyWith(
-                    color: AppColors.primaryRed,
-                  ),
-                ),
+                checkDelete
+                    ? InkWell(
+                        onTap: () {},
+                        child: Icon(
+                          Icons.delete,
+                          size: 20,
+                          color: AppColors.neutralGrey,
+                        ),
+                      )
+                    : SizedBox(),
               ],
             )
           ],
