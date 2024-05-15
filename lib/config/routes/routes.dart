@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zen_cart_market/core/utils/components.dart';
+import 'package:zen_cart_market/features/cart/presentation/pages/cartScreen.dart';
+import 'package:zen_cart_market/features/categoryDetails/presentation/pages/categoryDetails.dart';
 import 'package:zen_cart_market/features/favoriteProduct/presentation/pages/favoriteScreen.dart';
 import 'package:zen_cart_market/features/flashSale/presentation/pages/flashSale.dart';
+import 'package:zen_cart_market/features/home/data/models/ProductModel.dart';
 import 'package:zen_cart_market/features/home/presentation/pages/homeScreen.dart';
 import 'package:zen_cart_market/features/logIn/presentation/pages/login_screen.dart';
 import 'package:zen_cart_market/features/notification/presentation/pages/Screens/activityNotification.dart';
@@ -25,6 +29,8 @@ class RoutesName {
   static const String activityNotification = "activityNotification";
   static const String feedNotification = "feedNotification";
   static const String offerNotification = "offerNotification";
+  static const String cartScreen = "cartScreen";
+  static const String categoryDetails = "categoryDetails";
 }
 
 class AppRoutes {
@@ -52,7 +58,7 @@ class AppRoutes {
         );
       case RoutesName.productScreen:
         return MaterialPageRoute(
-          builder: (context) => ProductScreen(),
+          builder: (context) => ProductScreen(product: settings.arguments as Product,),
         );
       case RoutesName.favoriteScreen:
         return MaterialPageRoute(
@@ -78,6 +84,14 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => OfferNotification(),
         );
+      case RoutesName.cartScreen:
+        return MaterialPageRoute(
+          builder: (context) => CartScreen(),
+        );
+case RoutesName.categoryDetails:
+        return MaterialPageRoute(
+          builder: (context) => CategoryDetails(categoryId: settings.arguments as String,),
+        );
 
       default:
         return MaterialPageRoute(
@@ -86,9 +100,5 @@ class AppRoutes {
     }
   }
 
-  static Widget unDefineRoute() {
-    return const Scaffold(
-      body: Center(child: Text("Route Not Found")),
-    );
-  }
+
 }

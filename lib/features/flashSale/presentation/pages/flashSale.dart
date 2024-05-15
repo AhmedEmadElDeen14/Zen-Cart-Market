@@ -50,38 +50,6 @@ class FlashSale extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: .7),
                 children: [
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_3.png",
-                  ),
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_4.png",
-                  ),
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_5.png",
-                  ),
-                  ProductItem(
-                    title: "MNike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_6.png",
-                  ),
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_3.png",
-                  ),
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_4.png",
-                  ),
-                  ProductItem(
-                    title: "Nike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_5.png",
-                  ),
-                  ProductItem(
-                    title: "MNike Air Max 270 React ENG",
-                    imagePath: "assets/images/image Product_6.png",
-                  ),
 
                 ],
               ),

@@ -3,17 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zen_cart_market/config/routes/routes.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
 import 'package:zen_cart_market/core/utils/styles.dart';
+import 'package:zen_cart_market/features/home/data/models/ProductModel.dart';
 
 class ProductItem extends StatelessWidget {
-  String title;
-  String imagePath;
+  Product? data;
   bool checkDelete = false;
 
-  ProductItem(
-      {required this.title, required this.imagePath, this.checkDelete = false});
+  ProductItem({required this.data, this.checkDelete = false});
 
   @override
   Widget build(BuildContext context) {
+    double sale = data!.price! - (data!.price! * .24);
     return Container(
       height: 238.h,
       width: 141.w,
@@ -25,27 +25,35 @@ class ProductItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(5)),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, RoutesName.productScreen);
+          Navigator.pushNamed(context, RoutesName.productScreen,
+              arguments: data);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image(
-              image: AssetImage(
-                imagePath,
-              ),
+              image: NetworkImage(data?.imageCover ?? ""),
+              height: 109.h,
+              width: 109.w,
             ),
-            Text(
-              title,
-              style: HeadingTextStyle.h6.copyWith(
-                color: AppColors.neutralDark,
-              ),
-            ),
+            data!.title!.length > 25
+                ? Text(
+                    "${data!.title!.substring(0, 20)}...",
+                    style: HeadingTextStyle.h6.copyWith(
+                      color: AppColors.neutralDark,
+                    ),
+                  )
+                : Text(
+                    data!.title ?? "",
+                    style: HeadingTextStyle.h6.copyWith(
+                      color: AppColors.neutralDark,
+                    ),
+                  ),
             Container(
               alignment: Alignment.topLeft,
               child: Text(
-                "\$299,43",
+                "\$${sale.round()}",
                 style: BodyTextStyle.normalBold.copyWith(
                   color: AppColors.primaryBlue,
                 ),
@@ -86,7 +94,7 @@ class ProductItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "\$534,33",
+                      "\$${data!.price.toString()}",
                       style: CaptionTextStyle.normalRegular.copyWith(
                         color: AppColors.neutralGrey,
                       ),

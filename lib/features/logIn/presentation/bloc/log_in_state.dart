@@ -1,6 +1,22 @@
 part of 'log_in_bloc.dart';
 
 @immutable
-sealed class LogInState {}
+ class LoginState {
+  RequestStatus? status;
+  UserModel? userModel;
+  Failures? failures;
 
-final class LogInInitial extends LogInState {}
+  LoginState({this.status, this.userModel, this.failures});
+
+  LoginState copyWith(
+      {RequestStatus? status,
+        UserModel? userModel,
+        Failures? failures}) {
+    return LoginState(
+        status: status ?? this.status,
+        failures: failures ?? this.failures,
+        userModel: userModel ?? this.userModel);
+  }
+}
+
+final class LoginInitial extends LoginState {}
