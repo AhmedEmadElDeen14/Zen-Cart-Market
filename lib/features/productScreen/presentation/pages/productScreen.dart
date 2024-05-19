@@ -40,7 +40,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   int currentImage = 0;
-  bool isFav = false;
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _ProductScreenState extends State<ProductScreen> {
           if (state.type == ScreenType.wishlistSuccess) {
             for (var product in state.wishlistModel?.data ?? []) {
               if (widget.product.id == product.id) {
-                isFav = true;
+                isFavorite = true;
               }
             }
           }
@@ -221,7 +221,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                             ),
-                            isFav == true
+                            isFavorite == true
                                 ? InkWell(
                                     child: Icon(
                                       Icons.favorite,
@@ -233,7 +233,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                           .add(DeleteProductFromWishlistEvent(
                                               productId:
                                                   widget.product.id ?? ""));
-                                      isFav = false;
+                                      BlocProvider.of<WishlistBloc>(context)
+                                          .add(GetWishlistEvent());
+                                      isFavorite = false;
                                     },
                                   )
                                 : InkWell(
@@ -247,6 +249,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                           .add(AddProductToWishlistEvent(
                                               productId:
                                                   widget.product.id ?? ""));
+                                      BlocProvider.of<WishlistBloc>(context)
+                                          .add(GetWishlistEvent());
                                     },
                                   ),
                           ],
@@ -582,16 +586,16 @@ class _ProductScreenState extends State<ProductScreen> {
                             SizedBox(
                               height: 25,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "You Might Also Like",
-                                  style: HeadingTextStyle.h5
-                                      .copyWith(color: AppColors.neutralDark),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       "You Might Also Like",
+                            //       style: HeadingTextStyle.h5
+                            //           .copyWith(color: AppColors.neutralDark),
+                            //     ),
+                            //   ],
+                            // ),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -618,7 +622,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               BlocProvider.of<CartBloc>(context).add(
                                   AddItemEvent(
                                       productId: widget.product.id ?? ""));
-                              Navigator.pushNamed(context, RoutesName.cartScreen);
+                              Navigator.pushNamed(
+                                  context, RoutesName.cartScreen);
                             },
                             style: ButtonStyle(
                                 alignment: Alignment.center,

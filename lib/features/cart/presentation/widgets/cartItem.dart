@@ -20,12 +20,15 @@ class CartItem extends StatefulWidget {
   final Products? product;
   final int quantity;
   final Function(int) onQuantityChanged;
+  final Function() onDeleteItem;
 
   CartItem(
       {super.key,
       this.product,
       required this.quantity,
-      required this.onQuantityChanged});
+      required this.onQuantityChanged,
+        required this.onDeleteItem
+      });
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -137,7 +140,9 @@ class _CartItemState extends State<CartItem> {
                                         productId:
                                             widget.product?.product?.id ??
                                                 "15"));
-                                widget.onQuantityChanged(quantity);
+
+
+                                widget.onDeleteItem();
                               },
                               child: FaIcon(
                                 FontAwesomeIcons.trash,

@@ -105,7 +105,7 @@ class ExploreTab extends StatelessWidget {
                     child: badges.Badge(
                       position: badges.BadgePosition.topEnd(top: -10, end: -8),
                       badgeContent: Text(
-                        "2",
+                        "8",
                         style: BodyTextStyle.normalBold
                             .copyWith(color: AppColors.backgroundColor),
                       ),

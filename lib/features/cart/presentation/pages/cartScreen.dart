@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:zen_cart_market/core/api/api_manager.dart';
 import 'package:zen_cart_market/core/enums/enums.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
@@ -20,6 +16,12 @@ import 'package:zen_cart_market/features/cart/presentation/widgets/cartItem.dart
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
+
+  Future<void> _refresh(BuildContext context) async {
+    BlocProvider.of<CartBloc>(context).add(GetCartEvent());
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,49 +92,52 @@ class CartScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  body: SingleChildScrollView(
-                    child: Container(
+                  body: RefreshIndicator(
+                    onRefresh: () => _refresh(context),
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.all(25),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           state.type == ScreenType.cartFailures ||
                                   state.type == ScreenType.loading
                               ? SizedBox()
-                              : SizedBox(
-                                  height: 400,
-                                  child: ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      if (state.cartModel?.data!
-                                              .products![index] ==
-                                          null) {
-                                        return SizedBox();
-                                      } else {
-                                        return CartItem(
-                                          product: state.cartModel?.data!
-                                              .products![index],
-                                          quantity: state.cartModel?.data!
-                                                  .products![index].count ??
-                                              0,
-                                          onQuantityChanged: (newQuantity) {
-                                            BlocProvider.of<CartBloc>(context)
-                                                .add(
-                                              EditQuantityEvent(
-                                                numOfQuantity: newQuantity,
-                                                productId: state
-                                                        .cartModel
-                                                        ?.data!
-                                                        .products![index]
-                                                        .product!
-                                                        .id ??
-                                                    "",
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
-                                    },
-                                    itemCount: state.cartModel?.numOfCartItems,
-                                  ),
+                              : ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    if (state.cartModel?.data!
+                                            .products![index] ==
+                                        null) {
+                                      return SizedBox();
+                                    } else {
+                                      return CartItem(
+                                        product: state
+                                            .cartModel?.data!.products![index],
+                                        quantity: state.cartModel?.data!
+                                                .products![index].count ??
+                                            0,
+                                        onQuantityChanged: (newQuantity) {
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(
+                                            EditQuantityEvent(
+                                              numOfQuantity: newQuantity,
+                                              productId: state
+                                                      .cartModel
+                                                      ?.data!
+                                                      .products![index]
+                                                      .product!
+                                                      .id ??
+                                                  "",
+                                            ),
+                                          );
+                                        },
+                                        onDeleteItem: () => _refresh(context),
+                                      );
+                                    }
+                                  },
+                                  itemCount: state.cartModel?.numOfCartItems,
                                 ),
                           SizedBox(
                             height: 25,
@@ -158,14 +163,14 @@ class CartScreen extends StatelessWidget {
                                   ),
                                   child: TextField(
                                     decoration: InputDecoration(
-                                        hintText: "Enter Cupon Code",
-                                        hintStyle:
-                                            FormTextStyle.normal.copyWith(
-                                          color: AppColors.neutralGrey,
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                        )),
+                                      hintText: "Enter Coupon Code",
+                                      hintStyle: FormTextStyle.normal.copyWith(
+                                        color: AppColors.neutralGrey,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -196,12 +201,14 @@ class CartScreen extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(15),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border:
-                                    Border.all(color: AppColors.neutralLight)),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: AppColors.neutralLight),
+                            ),
                             child: Column(
                               children: [
                                 Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -219,13 +226,13 @@ class CartScreen extends StatelessWidget {
                                             .copyWith(
                                           color: AppColors.neutralDark,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -243,13 +250,13 @@ class CartScreen extends StatelessWidget {
                                             .copyWith(
                                           color: AppColors.neutralDark,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -267,11 +274,9 @@ class CartScreen extends StatelessWidget {
                                             .copyWith(
                                           color: AppColors.neutralDark,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.symmetric(vertical: 5),
                                 ),
                                 Divider(
                                   indent: 10,
@@ -280,6 +285,8 @@ class CartScreen extends StatelessWidget {
                                   endIndent: 10,
                                 ),
                                 Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -295,11 +302,9 @@ class CartScreen extends StatelessWidget {
                                         style: HeadingTextStyle.h5.copyWith(
                                           color: AppColors.primaryBlue,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.symmetric(vertical: 5),
                                 ),
                               ],
                             ),
@@ -308,27 +313,28 @@ class CartScreen extends StatelessWidget {
                             height: 25,
                           ),
                           ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                  alignment: Alignment.center,
-                                  elevation: MaterialStatePropertyAll(0),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      AppColors.primaryBlue),
-                                  shape: MaterialStatePropertyAll(
-                                      ContinuousRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)))),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 57.h,
-                                width: 343.w,
-                                child: Text(
-                                  "Check Out",
-                                  style: FormTextStyle.buttonText.copyWith(
-                                    color: AppColors.backgroundColor,
-                                  ),
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              alignment: Alignment.center,
+                              elevation: MaterialStatePropertyAll(0),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppColors.primaryBlue),
+                              shape: MaterialStatePropertyAll(
+                                  ContinuousRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 57.h,
+                              width: 343.w,
+                              child: Text(
+                                "Check Out",
+                                style: FormTextStyle.buttonText.copyWith(
+                                  color: AppColors.backgroundColor,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

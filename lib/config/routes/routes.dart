@@ -13,6 +13,10 @@ import 'package:zen_cart_market/features/notification/presentation/pages/Screens
 import 'package:zen_cart_market/features/notification/presentation/pages/notificationScreen.dart';
 import 'package:zen_cart_market/features/productScreen/presentation/pages/productScreen.dart';
 import 'package:zen_cart_market/features/productScreen/presentation/pages/reviewScreen.dart';
+import 'package:zen_cart_market/features/profile/presentation/pages/profile_screen.dart';
+import 'package:zen_cart_market/features/profile/presentation/pages/sub_pages/ChangeBirthdayScreen.dart';
+import 'package:zen_cart_market/features/profile/presentation/pages/sub_pages/GenderSelectionScreen.dart';
+import 'package:zen_cart_market/features/profile/presentation/pages/sub_pages/change_name.dart';
 import 'package:zen_cart_market/features/register/presentation/pages/register.dart';
 import 'package:zen_cart_market/features/splash/presentation/pages/splash_screen.dart';
 
@@ -31,6 +35,10 @@ class RoutesName {
   static const String offerNotification = "offerNotification";
   static const String cartScreen = "cartScreen";
   static const String categoryDetails = "categoryDetails";
+  static const String profileScreen = "profileScreen";
+  static const String changeName = "changeName";
+  static const String genderSelectionScreen = "genderSelectionScreen";
+  static const String changeBirthdayScreen = "changeBirthdayScreen";
 }
 
 class AppRoutes {
@@ -58,7 +66,9 @@ class AppRoutes {
         );
       case RoutesName.productScreen:
         return MaterialPageRoute(
-          builder: (context) => ProductScreen(product: settings.arguments as Product,),
+          builder: (context) => ProductScreen(
+            product: settings.arguments as Product,
+          ),
         );
       case RoutesName.favoriteScreen:
         return MaterialPageRoute(
@@ -88,9 +98,27 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => CartScreen(),
         );
-case RoutesName.categoryDetails:
+      case RoutesName.categoryDetails:
         return MaterialPageRoute(
-          builder: (context) => CategoryDetails(categoryId: settings.arguments as String,),
+          builder: (context) => CategoryDetails(
+            categoryId: settings.arguments as String,
+          ),
+        );
+      case RoutesName.profileScreen:
+        return MaterialPageRoute(
+          builder: (context) => ProfileScreen(),
+        );
+      case RoutesName.changeName:
+        return MaterialPageRoute(
+          builder: (context) => ChangeName(),
+        );
+      case RoutesName.genderSelectionScreen:
+        return MaterialPageRoute(
+          builder: (context) => GenderSelectionScreen(),
+        );
+      case RoutesName.changeBirthdayScreen:
+        return MaterialPageRoute(
+          builder: (context) => ChangeBirthdayScreen(),
         );
 
       default:
@@ -99,6 +127,4 @@ case RoutesName.categoryDetails:
         );
     }
   }
-
-
 }

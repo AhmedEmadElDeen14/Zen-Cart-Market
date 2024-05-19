@@ -39,7 +39,7 @@ class ProductItem extends StatelessWidget {
             ),
             data!.title!.length > 25
                 ? Text(
-                    "${data!.title!.substring(0, 20)}...",
+                    "${data!.title!.substring(0, 15)}...",
                     style: HeadingTextStyle.h6.copyWith(
                       color: AppColors.neutralDark,
                     ),

@@ -146,7 +146,7 @@ class _HomeTabState extends State<HomeTab> {
                             position:
                                 badges.BadgePosition.topEnd(top: -10, end: -8),
                             badgeContent: Text(
-                              "2",
+                              "8",
                               style: BodyTextStyle.normalBold
                                   .copyWith(color: AppColors.backgroundColor),
                             ),
