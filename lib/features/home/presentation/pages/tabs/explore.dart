@@ -133,38 +133,40 @@ class ExploreTab extends StatelessWidget {
                 ),
               ),
             ),
-            body: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  state.categoryModel == null
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primaryBlue,
-                          ),
-                        )
-                      : SizedBox(
-                          height: MediaQuery.of(context).size.height * .75,
-                          child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              childAspectRatio: .7,
+            body: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+              
+                    state.categoryModel == null
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryBlue,
                             ),
-                            itemBuilder: (BuildContext context, int index) {
-                              return CategoryItem(
-                                category: state.categoryModel!.data![index],
-                              );
-                            },
-                            itemCount: state.categoryModel?.results ?? 0,
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * .75,
+                            child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                childAspectRatio: .7,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return CategoryItem(
+                                  category: state.categoryModel!.data![index],
+                                );
+                              },
+                              itemCount: state.categoryModel?.results ?? 0,
+                            ),
                           ),
-                        ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                ],
+                    SizedBox(
+                      height: 25,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
