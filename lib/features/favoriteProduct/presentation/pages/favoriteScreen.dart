@@ -15,6 +15,12 @@ import 'package:zen_cart_market/features/favoriteProduct/presentation/widgets/wi
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
 
+  Future<void> _refresh(BuildContext context) async {
+    BlocProvider.of<WishlistBloc>(context).add(GetWishlistEvent());
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -75,20 +81,23 @@ class FavoriteScreen extends StatelessWidget {
                 },
               ),
             ),
-            body: state.wishlistModel == null ||
-                state.type == ScreenType.loading
-                ? Center(
-              child: CircularProgressIndicator(),
-            )
-                : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: .7),
-              itemBuilder: (context, index) {
-                return WishlistItem(
-                  data: state.wishlistModel!.data![index],
-                );
-              },
-              itemCount: state.wishlistModel!.data!.length,
+            body: RefreshIndicator(
+              onRefresh: () => _refresh(context),
+              child: state.wishlistModel == null ||
+                  state.type == ScreenType.loading
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: .7),
+                itemBuilder: (context, index) {
+                  return WishlistItem(
+                    data: state.wishlistModel!.data![index],
+                  );
+                },
+                itemCount: state.wishlistModel!.data!.length,
+              ),
             ),
           );
         },

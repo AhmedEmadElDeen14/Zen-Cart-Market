@@ -14,4 +14,6 @@ enum ScreenType {
   cartSuccess,
   wishlistSuccess,
   wishlistFailures,
+  specificProductSuccess,
+  specificProductFailures,
 }

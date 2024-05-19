@@ -33,6 +33,15 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int currentPage = 0;
 
+
+  Future<void> _refresh(BuildContext context) async {
+    BlocProvider.of<HomeBloc>(context).add(HomeGetProductsEvent());
+    BlocProvider.of<HomeBloc>(context).add(HomeGetBrandsEvent());
+    BlocProvider.of<HomeBloc>(context).add(HomeGetCategoryEvent());
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     CarouselController carouselController = CarouselController();
@@ -174,284 +183,287 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                   ),
-                  body: Container(
-                    padding: EdgeInsets.all(20),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              CarouselSlider(
-                                options: CarouselOptions(
-                                  enableInfiniteScroll: false,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 1,
-                                  initialPage: currentPage,
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => currentPage = index),
+                  body: RefreshIndicator(
+                    onRefresh: () => _refresh(context),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                    enableInfiniteScroll: false,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 1,
+                                    initialPage: currentPage,
+                                    onPageChanged: (index, reason) =>
+                                        setState(() => currentPage = index),
+                                  ),
+                                  carouselController: carouselController,
+                                  items: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, RoutesName.flashSale);
+                                      },
+                                      child: SaleAds(),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, RoutesName.flashSale);
+                                      },
+                                      child: SaleAds(),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, RoutesName.flashSale);
+                                      },
+                                      child: SaleAds(),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, RoutesName.flashSale);
+                                      },
+                                      child: SaleAds(),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, RoutesName.flashSale);
+                                      },
+                                      child: SaleAds(),
+                                    ),
+                                  ],
                                 ),
-                                carouselController: carouselController,
-                                items: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.flashSale);
-                                    },
-                                    child: SaleAds(),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.flashSale);
-                                    },
-                                    child: SaleAds(),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.flashSale);
-                                    },
-                                    child: SaleAds(),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.flashSale);
-                                    },
-                                    child: SaleAds(),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, RoutesName.flashSale);
-                                    },
-                                    child: SaleAds(),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              SmoothPageIndicator(
-                                  controller:
-                                      PageController(initialPage: currentPage),
-                                  count: 5,
-                                  effect: SlideEffect(
-                                    activeDotColor: AppColors.primaryBlue,
-                                    dotColor: AppColors.neutralLight,
-                                    dotHeight: 8,
-                                    dotWidth: 8,
-                                  ),
-                                  onDotClicked: (index) {}),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Category",
-                                    style: HeadingTextStyle.h5
-                                        .copyWith(color: AppColors.neutralDark),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      "More Category",
-                                      style: HeadingTextStyle.h5.copyWith(
-                                          color: AppColors.primaryBlue),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SmoothPageIndicator(
+                                    controller:
+                                        PageController(initialPage: currentPage),
+                                    count: 5,
+                                    effect: SlideEffect(
+                                      activeDotColor: AppColors.primaryBlue,
+                                      dotColor: AppColors.neutralLight,
+                                      dotHeight: 8,
+                                      dotWidth: 8,
                                     ),
-                                  )
-                                ],
-                              ),
-                              state.categoryModel == null
-                                  ? SizedBox()
-                                  : SizedBox(
-                                      height: 150,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          if(index<6){
-                                            return CategoryItem(
-                                                category: state
-                                                    .categoryModel!.data![index]);
-                                          }
-
-                                        },
-                                        itemCount:
-                                            state.categoryModel!.data!.length,
+                                    onDotClicked: (index) {}),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Category",
+                                      style: HeadingTextStyle.h5
+                                          .copyWith(color: AppColors.neutralDark),
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "More Category",
+                                        style: HeadingTextStyle.h5.copyWith(
+                                            color: AppColors.primaryBlue),
                                       ),
-                                    ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Flash Sale",
-                                    style: HeadingTextStyle.h5
-                                        .copyWith(color: AppColors.neutralDark),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      "See More",
-                                      style: HeadingTextStyle.h5.copyWith(
-                                          color: AppColors.primaryBlue),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              state.productModel == null
-                                  ? SizedBox()
-                                  : SizedBox(
-                                      height: 250.h,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          if (index < 20) {
-                                            return ProductItem(
-                                              data: state
-                                                  .productModel?.data?[index],
-                                            );
-                                          }
-                                        },
-                                        itemCount:
-                                            state.productModel?.data?.length,
-                                      ),
-                                    ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Mega Sale",
-                                    style: HeadingTextStyle.h5
-                                        .copyWith(color: AppColors.neutralDark),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      "See More",
-                                      style: HeadingTextStyle.h5.copyWith(
-                                          color: AppColors.primaryBlue),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              state.productModel == null
-                                  ? SizedBox()
-                                  : SizedBox(
-                                      height: 250.h,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          if (index >= 20 && index < 40) {
-                                            return ProductItem(
-                                              data: state
-                                                  .productModel?.data?[index],
-                                            );
-                                          }else{
-                                            return SizedBox();
-                                          }
-                                        },
-                                        itemCount:
-                                            state.productModel?.data?.length,
-                                      ),
-                                    ),
-                            ],
-                          ),
-                          Center(
-                            child: Container(
-                              width: 343.w,
-                              height: 206.h,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/recomended.png"),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(20),
-                                    width: 225.w,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          "Recomended Product",
-                                          style: HeadingTextStyle.h2.copyWith(
-                                            color: AppColors.backgroundColor,
-                                          ),
+                                    )
+                                  ],
+                                ),
+                                state.categoryModel == null
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        height: 150,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            if(index<6){
+                                              return CategoryItem(
+                                                  category: state
+                                                      .categoryModel!.data![index]);
+                                            }
+                    
+                                          },
+                                          itemCount:
+                                              state.categoryModel!.data!.length,
                                         ),
-                                        Text(
-                                          "We recommend the best for you",
-                                          style: BodyTextStyle.normalRegular
-                                              .copyWith(
-                                            color: AppColors.backgroundColor,
+                                      ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Flash Sale",
+                                      style: HeadingTextStyle.h5
+                                          .copyWith(color: AppColors.neutralDark),
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "See More",
+                                        style: HeadingTextStyle.h5.copyWith(
+                                            color: AppColors.primaryBlue),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                state.productModel == null
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        height: 250.h,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            if (index < 20) {
+                                              return ProductItem(
+                                                data: state
+                                                    .productModel?.data?[index],
+                                              );
+                                            }
+                                          },
+                                          itemCount:
+                                              state.productModel?.data?.length,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Mega Sale",
+                                      style: HeadingTextStyle.h5
+                                          .copyWith(color: AppColors.neutralDark),
+                                    ),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "See More",
+                                        style: HeadingTextStyle.h5.copyWith(
+                                            color: AppColors.primaryBlue),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                state.productModel == null
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        height: 250.h,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            if (index >= 20 && index < 40) {
+                                              return ProductItem(
+                                                data: state
+                                                    .productModel?.data?[index],
+                                              );
+                                            }else{
+                                              return SizedBox();
+                                            }
+                                          },
+                                          itemCount:
+                                              state.productModel?.data?.length,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            Center(
+                              child: Container(
+                                width: 343.w,
+                                height: 206.h,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/recomended.png"),
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(20),
+                                      width: 225.w,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            "Recomended Product",
+                                            style: HeadingTextStyle.h2.copyWith(
+                                              color: AppColors.backgroundColor,
+                                            ),
                                           ),
-                                        )
+                                          Text(
+                                            "We recommend the best for you",
+                                            style: BodyTextStyle.normalRegular
+                                                .copyWith(
+                                              color: AppColors.backgroundColor,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            state.productModel == null
+                                ? SizedBox()
+                                : SizedBox(
+                                    height: 500,
+                                    child: GridView(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              childAspectRatio: .7),
+                                      children: [
+                                        ProductItem(
+                                          data: state.productModel?.data?[20],
+                                        ),
+                                        ProductItem(
+                                          data: state.productModel?.data?[18],
+                                        ),
+                                        ProductItem(
+                                          data: state.productModel?.data?[15],
+                                        ),
+                                        ProductItem(
+                                          data: state.productModel?.data?[25],
+                                        ),
                                       ],
                                     ),
                                   )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          state.productModel == null
-                              ? SizedBox()
-                              : SizedBox(
-                                  height: 500,
-                                  child: GridView(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: .7),
-                                    children: [
-                                      ProductItem(
-                                        data: state.productModel?.data?[20],
-                                      ),
-                                      ProductItem(
-                                        data: state.productModel?.data?[18],
-                                      ),
-                                      ProductItem(
-                                        data: state.productModel?.data?[15],
-                                      ),
-                                      ProductItem(
-                                        data: state.productModel?.data?[25],
-                                      ),
-                                    ],
-                                  ),
-                                )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
