@@ -9,7 +9,6 @@ import 'package:zen_cart_market/features/favoriteProduct/domain/use_cases/delete
 import 'package:zen_cart_market/features/favoriteProduct/domain/use_cases/wishlist_useCase.dart';
 
 part 'wishlist_event.dart';
-
 part 'wishlist_state.dart';
 
 class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
@@ -26,8 +25,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       res.fold((l) {
         emit(state.copyWith(type: ScreenType.wishlistFailures, failures: l));
       }, (r) {
-        emit(
-            state.copyWith(type: ScreenType.wishlistSuccess, wishlistModel: r));
+        emit(state.copyWith(type: ScreenType.wishlistSuccess, wishlistModel: r));
       });
     });
 
@@ -36,9 +34,14 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       var res = await addProductToWishlistUseCase.call(event.productId);
       res.fold((l) {
         emit(state.copyWith(type: ScreenType.wishlistFailures, failures: l));
-      }, (r) {
-        emit(
-            state.copyWith(type: ScreenType.wishlistSuccess, wishlistModel: r));
+      }, (r) async {
+        // Refetch the wishlist to get the updated state
+        var wishlistRes = await wishlistUseCase.call();
+        wishlistRes.fold((l) {
+          emit(state.copyWith(type: ScreenType.wishlistFailures, failures: l));
+        }, (wishlist) {
+          emit(state.copyWith(type: ScreenType.wishlistSuccess, wishlistModel: wishlist));
+        });
       });
     });
 
@@ -47,11 +50,15 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
       var res = await deleteProductFromWishlistUseCase.call(event.productId);
       res.fold((l) {
         emit(state.copyWith(type: ScreenType.wishlistFailures, failures: l));
-      }, (r) {
-        emit(
-            state.copyWith(type: ScreenType.wishlistSuccess, deleteResponse: r));
+      }, (r) async {
+        // Refetch the wishlist to get the updated state
+        var wishlistRes = await wishlistUseCase.call();
+        wishlistRes.fold((l) {
+          emit(state.copyWith(type: ScreenType.wishlistFailures, failures: l));
+        }, (wishlist) {
+          emit(state.copyWith(type: ScreenType.wishlistSuccess, wishlistModel: wishlist));
+        });
       });
     });
-
   }
 }

@@ -42,6 +42,22 @@ class _ProductScreenState extends State<ProductScreen> {
   int currentImage = 0;
   bool isFavorite = false;
 
+
+  bool isValidUri(String uri) {
+    return uri.startsWith('http://') || uri.startsWith('https://');
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the favorite status based on the product ID
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<WishlistBloc>(context).add(GetWishlistEvent());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     CarouselController carouselController = CarouselController();
@@ -183,12 +199,20 @@ class _ProductScreenState extends State<ProductScreen> {
                         itemCount: widget.product.images!.length,
                         itemBuilder:
                             (BuildContext context, int index, int realIndex) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width * 1,
-                            child: Image(
-                                image: NetworkImage(
-                                    widget.product.images![index])),
-                          );
+                          String imageUri = widget.product.images![index];
+                          if (isValidUri(imageUri)) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.network(imageUri),
+                            );
+                          }else{
+                            String url = "https://ecommerce.routemisr.com/Route-Academy-products/${imageUri}";
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.network(url),
+                            );
+                          }
+
                         },
                       ),
                       SizedBox(
@@ -221,7 +245,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 ),
                               ),
                             ),
-                            isFavorite == true
+                            isFavorite
                                 ? InkWell(
                                     child: Icon(
                                       Icons.favorite,
@@ -233,9 +257,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                           .add(DeleteProductFromWishlistEvent(
                                               productId:
                                                   widget.product.id ?? ""));
-                                      BlocProvider.of<WishlistBloc>(context)
-                                          .add(GetWishlistEvent());
-                                      isFavorite = false;
+
                                     },
                                   )
                                 : InkWell(
@@ -249,8 +271,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                           .add(AddProductToWishlistEvent(
                                               productId:
                                                   widget.product.id ?? ""));
-                                      BlocProvider.of<WishlistBloc>(context)
-                                          .add(GetWishlistEvent());
                                     },
                                   ),
                           ],

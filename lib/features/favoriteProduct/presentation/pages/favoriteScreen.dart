@@ -11,8 +11,6 @@ import 'package:zen_cart_market/features/favoriteProduct/domain/use_cases/delete
 import 'package:zen_cart_market/features/favoriteProduct/domain/use_cases/wishlist_useCase.dart';
 import 'package:zen_cart_market/features/favoriteProduct/presentation/bloc/wishlist_bloc.dart';
 import 'package:zen_cart_market/features/favoriteProduct/presentation/widgets/wishlistItem.dart';
-import 'package:zen_cart_market/features/home/presentation/widgets/productItem.dart';
-import 'package:zen_cart_market/features/home/presentation/widgets/saleAds.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
@@ -54,9 +52,7 @@ class FavoriteScreen extends StatelessWidget {
               ),
             );
           }
-          if (state.type == ScreenType.wishlistSuccess) {
-            print("---------------------------------------wishlist Success");
-          }
+          if (state.type == ScreenType.wishlistSuccess) {}
         },
         builder: (context, state) {
           return Scaffold(
@@ -65,7 +61,7 @@ class FavoriteScreen extends StatelessWidget {
               title: Text(
                 "Favorite Product",
                 style:
-                    HeadingTextStyle.h4.copyWith(color: AppColors.neutralDark),
+                HeadingTextStyle.h4.copyWith(color: AppColors.neutralDark),
               ),
               backgroundColor: AppColors.backgroundColor,
               iconTheme: IconThemeData(color: AppColors.neutralGrey),
@@ -79,25 +75,20 @@ class FavoriteScreen extends StatelessWidget {
                 },
               ),
             ),
-            body: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 1,
-                child: state.wishlistModel == null ||
-                        state.type == ScreenType.loading
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: .7),
-                        itemBuilder: (context, index) {
-                          return WishlistItem(
-                            data: state.wishlistModel!.data![index],
-                          );
-                        },
-                        itemCount: state.wishlistModel!.data!.length,
-                      ),
-              ),
+            body: state.wishlistModel == null ||
+                state.type == ScreenType.loading
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: .7),
+              itemBuilder: (context, index) {
+                return WishlistItem(
+                  data: state.wishlistModel!.data![index],
+                );
+              },
+              itemCount: state.wishlistModel!.data!.length,
             ),
           );
         },

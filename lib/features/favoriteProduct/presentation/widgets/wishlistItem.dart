@@ -3,14 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zen_cart_market/config/routes/routes.dart';
 import 'package:zen_cart_market/core/utils/app_colors.dart';
 import 'package:zen_cart_market/core/utils/styles.dart';
+import 'package:zen_cart_market/features/home/data/models/ProductModel.dart';
 
 import '../../data/models/WishlistModel.dart';
 
 class WishlistItem extends StatelessWidget {
-  Data? data;
+  Product? data;
   bool checkDelete = false;
 
-  WishlistItem({required this.data, this.checkDelete = false});
+  WishlistItem({super.key, required this.data, this.checkDelete = false});
 
   @override
   Widget build(BuildContext context) {
