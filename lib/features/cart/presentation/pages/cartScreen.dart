@@ -94,13 +94,16 @@ class CartScreen extends StatelessWidget {
                     ),
                   )
                 : state.cartModel!.numOfCartItems == 0
-                    ? Center(
-                        child: Text(
-                        "Your Cart is Empty",
-                        style: HeadingTextStyle.h3.copyWith(
-                          color: AppColors.neutralDark,
-                        ),
-                      ))
+                    ? RefreshIndicator(
+                      onRefresh: () => _refresh(context),
+                      child: Center(
+                          child: Text(
+                          "Your Cart is Empty",
+                          style: HeadingTextStyle.h3.copyWith(
+                            color: AppColors.neutralDark,
+                          ),
+                        )),
+                    )
                     : RefreshIndicator(
                         onRefresh: () => _refresh(context),
                         child: SingleChildScrollView(

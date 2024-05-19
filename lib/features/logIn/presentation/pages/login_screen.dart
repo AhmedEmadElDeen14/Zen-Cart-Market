@@ -14,11 +14,19 @@ import 'package:zen_cart_market/features/logIn/data/repositories/login_repo_impl
 import 'package:zen_cart_market/features/logIn/domain/use_cases/login_usecase.dart';
 import 'package:zen_cart_market/features/logIn/presentation/bloc/log_in_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +99,7 @@ class LoginScreen extends StatelessWidget {
                         height: 25,
                       ),
                       Form(
+                        key: _formKey,
                         child: Column(
                           children: [
                             TextFormField(
@@ -107,6 +116,7 @@ class LoginScreen extends StatelessWidget {
                                   borderSide:
                                       BorderSide(color: AppColors.primaryBlue),
                                 ),
+                                focusedErrorBorder:  InputBorder.none,
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: AppColors.primaryRed,
@@ -117,6 +127,16 @@ class LoginScreen extends StatelessWidget {
                                       BorderSide(color: AppColors.neutralLight),
                                 ),
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                } else if (!RegExp(
+                                    r'^[^@]+@[^@]+\.[^@]+')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(
                               height: 15,
@@ -137,6 +157,7 @@ class LoginScreen extends StatelessWidget {
                                       BorderSide(color: AppColors.primaryBlue),
                                 ),
                                 focusColor: AppColors.primaryBlue,
+                                focusedErrorBorder: InputBorder.none,
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: AppColors.primaryRed,
@@ -147,17 +168,27 @@ class LoginScreen extends StatelessWidget {
                                       BorderSide(color: AppColors.neutralLight),
                                 ),
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  BlocProvider.of<LoginBloc>(context).add(
+                                  if (_formKey.currentState!.validate()) {
+                                    BlocProvider.of<LoginBloc>(context).add(
                                       LoginButtonEvent(
-                                          "ahmedemad141@gmail.com", "Emad@123"));
-
-                                  },
+                                        emailController.text,
+                                        passwordController.text,
+                                      ),
+                                    );
+                                  }
+                                },
                                 style: ButtonStyle(
                                     alignment: Alignment.center,
                                     elevation: MaterialStatePropertyAll(0),
